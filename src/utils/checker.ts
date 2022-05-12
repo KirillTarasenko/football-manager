@@ -1,1 +1,1 @@
-export const isSVG = url => /(?!.*\.icon\.svg$)^.+\.svg$/.test(url);
+export const isSVG = (url: string): boolean => /(?!.*\.icon\.svg$)^.+\.svg$/.test(url);

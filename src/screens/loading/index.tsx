@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 import { initAPI } from '../../api';
 import { HOME } from '../../constants/routes';
 
-export function LoadingScreen({ navigation }) {
+export function LoadingScreen({ navigation }): JSX.Element {
   React.useEffect(() => {
     initAPI().then(() => {
       navigation.dispatch(
@@ -14,10 +14,14 @@ export function LoadingScreen({ navigation }) {
         }),
       );
     });
-  }, []);
+  }, [navigation]);
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={styles.root}>
       <Text>LoadingScreen</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+});

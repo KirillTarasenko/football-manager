@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { ANIM_BALL } from '../../constants/animations';
 
 const Loading = (): JSX.Element | null => {
-  return <LottieView loop autoPlay source={ANIM_BALL} />;
+  return <LottieView loop autoPlay source={require('../../../assets/animations/anim-ball.json')} />;
 };
 
 export default React.memo(Loading);

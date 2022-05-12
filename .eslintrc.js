@@ -27,7 +27,7 @@ module.exports = {
       extends: ['plugin:@typescript-eslint/recommended'],
       rules: {
         'no-shadow': 0,
-        'no-unused-vars': 0,
+        'no-unused-vars': 1,
         '@typescript-eslint/no-shadow': 1,
         '@typescript-eslint/no-unused-vars': 2,
       },
@@ -51,7 +51,7 @@ module.exports = {
     'react/no-unused-prop-types': 2,
     'react/no-unused-state': 2,
     'react/jsx-no-bind': 1,
-    'react/prop-types': 2,
+    'react/prop-types': 1,
     'react/require-default-props': 1,
     'react/jsx-boolean-value': 2,
     'react-native/no-raw-text': 1,
@@ -62,7 +62,8 @@ module.exports = {
         ignoreReadBeforeAssign: false,
       },
     ],
-    'react-native/sort-styles': ['error', 'asc', {ignoreStyleProperties: true}],
+    'react-native/no-color-literals': 0,
+    'react-native/sort-styles': ['error', 'asc', { ignoreStyleProperties: true }],
     'react/sort-comp': [
       2,
       {

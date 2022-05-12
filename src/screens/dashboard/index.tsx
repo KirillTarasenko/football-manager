@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { getTeams } from '../../api/teams';
 import TeamRowItem from '../../components/TeamRowItem';
 import { SCREEN_WIDTH } from '../../utils/ui';
-import * as Animatable from 'react-native-animatable';
 import Loading from '../../components/Loading';
 import { saveTeams } from '../../store/teams';
 import { useDispatch, useSelector } from '../../hooks/store';
@@ -15,28 +15,21 @@ export function HomeScreen() {
       console.log('=>', data.data.teams);
       dispatch(saveTeams(data.data.teams));
     });
-  }, []);
+  }, [dispatch]);
 
   const list = useSelector(state => state.teams.list);
   const renderTeam = React.useCallback(({ item }) => <TeamRowItem item={item} />, []);
   const keyExtractor = React.useCallback(item => item.id, []);
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white',
-      }}
-    >
+    <View style={styles.root}>
       {list?.length ? (
         <Animatable.View animation="fadeIn" delay={50}>
           <FlatList
             numColumns={2}
             renderItem={renderTeam}
             data={list}
-            contentContainerStyle={{ paddingVertical: 20 }}
-            columnWrapperStyle={{ width: SCREEN_WIDTH, justifyContent: 'space-around' }}
+            contentContainerStyle={styles.container}
+            columnWrapperStyle={styles.column}
             keyExtractor={keyExtractor}
           />
         </Animatable.View>
@@ -46,3 +39,14 @@ export function HomeScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  column: { width: SCREEN_WIDTH, justifyContent: 'space-around' },
+  container: { paddingVertical: 20 },
+  root: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+});

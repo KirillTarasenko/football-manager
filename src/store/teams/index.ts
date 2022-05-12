@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ITeam } from '../../api/teams';
+import { ITeam } from '../../api/interfaces/teams';
 
 interface IDictionary<T> {
   [id: string]: T;

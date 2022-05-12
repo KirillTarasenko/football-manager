@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { ITeam } from '../../api/teams';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ITeam } from '../../api/interfaces/teams';
 import { INFO } from '../../constants/routes';
 import { navigate } from '../../screens';
 import { SCREEN_WIDTH } from '../../utils/ui';
@@ -14,10 +14,10 @@ const BASE_WIDTH = (SCREEN_WIDTH - FREE_SPACE_SIZE) / 2;
 
 const TeamRowItem = ({ item }: IProps): JSX.Element | null => {
   const { crestUrl, shortName, id } = item;
-  if (!item?.id) return null;
   const handlePress = useCallback(() => {
     navigate(INFO, { shortName, id });
   }, [shortName, id]);
+  if (!item?.id) return null;
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       <CrestImage crestUrl={crestUrl} />

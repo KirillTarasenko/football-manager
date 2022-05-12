@@ -1,25 +1,29 @@
 import React, { useCallback } from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
-import { ICompetition } from '../../api/teams';
+import { ICompetition } from '../../api/interfaces/teams';
 
 type IProps = {
   activeCompetitions: ICompetition[];
 };
 
 const ActiveCompetitionsList = ({ activeCompetitions }: IProps): JSX.Element | null => {
-  if (activeCompetitions?.length === 0) return null;
   const keyExtractor = useCallback(item => item.id, []);
+  const renderItem = useCallback(
+    ({ item: squad }) => (
+      <View style={styles.nameContainer}>
+        <Text style={styles.name}>{squad.name}</Text>
+      </View>
+    ),
+    [],
+  );
+  if (activeCompetitions?.length === 0) return null;
   return (
     <>
       <Text style={styles.title}>{'Active Competitions:'}</Text>
       <FlatList
         data={activeCompetitions}
         scrollEnabled={false}
-        renderItem={({ item: squad }) => (
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{squad.name}</Text>
-          </View>
-        )}
+        renderItem={renderItem}
         keyExtractor={keyExtractor}
       />
     </>
@@ -29,7 +33,6 @@ const ActiveCompetitionsList = ({ activeCompetitions }: IProps): JSX.Element | n
 export default React.memo(ActiveCompetitionsList);
 
 const styles = StyleSheet.create({
-  title: { fontSize: 20, fontWeight: 'bold', marginTop: 10, marginBottom: 5 },
   name: {
     textAlignVertical: 'center',
     textAlign: 'center',
@@ -42,4 +45,5 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 3,
   },
+  title: { fontSize: 20, fontWeight: 'bold', marginTop: 10, marginBottom: 5 },
 });

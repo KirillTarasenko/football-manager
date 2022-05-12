@@ -1,14 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
+import reduxFlipper from 'redux-flipper';
 import teamsReducer from './teams';
-import { applyMiddleware } from 'redux';
 
 const middlewares = [
   /* other middlewares */
 ];
 
 if (__DEV__) {
-  const createDebugger = require('redux-flipper').default;
-  middlewares.push(createDebugger());
+  middlewares.push(reduxFlipper() as never);
 }
 
 export const store = configureStore({
