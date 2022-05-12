@@ -22,7 +22,7 @@ const CrestImage = ({ crestUrl, size = IMAGE_SIZE }: IProps): JSX.Element | null
     </View>
   ) : (
     <FastImage
-      source={crestUrl ? { uri: crestUrl, cache: FastImage.cacheControl.cacheOnly } : BALL}
+      source={crestUrl ? { uri: crestUrl, cache: FastImage.cacheControl.immutable } : BALL}
       style={imageStyle}
     />
   );

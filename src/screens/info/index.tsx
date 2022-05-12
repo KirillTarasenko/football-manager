@@ -40,6 +40,6 @@ export function InfoScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   nameTeam: { fontSize: 24, fontWeight: 'bold', marginTop: 10 },
-  root: { flex: 1 },
+  root: { flex: 1, backgroundColor: 'white' },
   rootContent: { alignItems: 'center', paddingTop: 20, paddingBottom: 30 },
 });

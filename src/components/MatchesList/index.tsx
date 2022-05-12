@@ -22,7 +22,6 @@ const MatchesList = ({ matchesInfo }: IProps): JSX.Element | null => {
     ),
     [],
   );
-  if (matchesInfo?.length === 0) return null;
   return (
     <>
       <Text style={styles.title}>{'Matches:'}</Text>
