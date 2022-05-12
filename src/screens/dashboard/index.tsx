@@ -8,11 +8,10 @@ import Loading from '../../components/Loading';
 import { saveTeams } from '../../store/teams';
 import { useDispatch, useSelector } from '../../hooks/store';
 
-export function HomeScreen() {
+export function HomeScreen(): JSX.Element {
   const dispatch = useDispatch();
   React.useEffect(() => {
     getTeams().then(data => {
-      console.log('=>', data.data.teams);
       dispatch(saveTeams(data.data.teams));
     });
   }, [dispatch]);

@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 import MatchesList from '../../components/MatchesList';
 import SquadsList from '../../components/SquadsList';
 
-export function InfoScreen({ navigation, route }) {
+export function InfoScreen({ navigation, route }): JSX.Element {
   const { shortName, id } = route.params;
   navigation.setOptions({ title: shortName });
 
