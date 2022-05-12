@@ -12,7 +12,8 @@ import { HOME, INFO, LOADING } from './src/constants/routes';
 import { LoadingScreen } from './src/screens/loading';
 import { initAPI } from './src/api';
 import { navigationRef } from './src/screens';
-
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 const Stack = createNativeStackNavigator();
 
 // module.hot.accept(() => {
@@ -21,13 +22,15 @@ const Stack = createNativeStackNavigator();
 
 const App: () => JSX.Element = () => {
   return (
-    <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={LOADING}>
-        <Stack.Screen name={LOADING} component={LoadingScreen} />
-        <Stack.Screen name={HOME} component={HomeScreen} options={{ title: 'England Clubs' }} />
-        <Stack.Screen name={INFO} component={InfoScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator initialRouteName={LOADING}>
+          <Stack.Screen name={LOADING} component={LoadingScreen} />
+          <Stack.Screen name={HOME} component={HomeScreen} options={{ title: 'England Clubs' }} />
+          <Stack.Screen name={INFO} component={InfoScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

@@ -29,7 +29,7 @@ type IArea = {
 export const ROLE = {
   PLAYER: 'PLAYER',
 };
-type ISquad = {
+export type ISquad = {
   countryOfBirth: string;
   dateOfBirth: string;
   id: number;
@@ -39,7 +39,7 @@ type ISquad = {
   role: typeof ROLE | null;
   shirtNumber: number | null;
 };
-type ICompetition = {
+export type ICompetition = {
   area: IArea;
   code: string;
   id: number;
@@ -76,4 +76,58 @@ export const getTeams = (): Promise<ITeamsAPI> => {
 
 export const getTeamInfo = (id: number): Promise<ITeamAPI> => {
   return API.get(`teams/${id}`);
+};
+type IPerson = {
+  id: number;
+  name: string;
+  position: string;
+  shirtNumber: number;
+};
+
+export type IMatchTeam = {
+  id: number;
+  name: string;
+  coach: IPerson;
+  captain: IPerson;
+  lineup: IPerson[];
+  bench: IPerson[];
+};
+
+export type IMatch = {
+  id: number;
+  competition: {
+    id: number;
+    name: string;
+  };
+  status: 'FINISHED';
+  group: 'Group F';
+  lastUpdated: string;
+  referees: {
+    id: number;
+    name: string;
+    nationality: string | null;
+  }[];
+  homeTeam: IMatchTeam;
+  awayTeam: IMatchTeam;
+  score: any;
+  utcDate: string;
+  goals: any[];
+  bookings: {
+    minute: number;
+    team: ITeam;
+    player: any;
+    card: string;
+  }[];
+  substitutions: any[];
+};
+
+type IMatches = {
+  data: {
+    count: number;
+    filters: any;
+    matches: IMatch[];
+  };
+};
+export const getTeamMatches = (id: number): Promise<IMatches> => {
+  return API.get(`teams/${id}/matches`, { params: { status: 'SCHEDULED' } });
 };

@@ -5,14 +5,19 @@ import TeamRowItem from '../../components/TeamRowItem';
 import { SCREEN_WIDTH } from '../../utils/ui';
 import * as Animatable from 'react-native-animatable';
 import Loading from '../../components/Loading';
+import { saveTeams } from '../../store/teams';
+import { useDispatch, useSelector } from '../../hooks/store';
 
 export function HomeScreen() {
-  const [list, setList] = React.useState([]);
+  const dispatch = useDispatch();
   React.useEffect(() => {
     getTeams().then(data => {
-      setList(data.data.teams);
+      console.log('=>', data.data.teams);
+      dispatch(saveTeams(data.data.teams));
     });
   }, []);
+
+  const list = useSelector(state => state.teams.list);
   const renderTeam = React.useCallback(({ item }) => <TeamRowItem item={item} />, []);
   const keyExtractor = React.useCallback(item => item.id, []);
   return (

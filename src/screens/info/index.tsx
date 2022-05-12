@@ -1,55 +1,37 @@
 import * as React from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { getTeamInfo, ITeamDetail, ROLE } from '../../api/teams';
+import { ScrollView, Text } from 'react-native';
+import { getTeamInfo, getTeamMatches, ROLE } from '../../api/teams';
+import ActiveCompetitionsList from '../../components/ActiveCompetitionsList';
 import CrestImage from '../../components/CrestImage';
 import Loading from '../../components/Loading';
+import MatchesList from '../../components/MatchesList';
+import SquadsList from '../../components/SquadsList';
 
 export function InfoScreen({ navigation, route }) {
   const { shortName, id } = route.params;
   navigation.setOptions({ title: shortName });
 
   const [teamInfo, setTeamInfo] = React.useState(null);
+  const [matchesInfo, setMatchesInfo] = React.useState(null);
   React.useEffect(() => {
-    getTeamInfo(id).then(data => {
-      setTeamInfo(data.data);
+    Promise.all([getTeamInfo(id), getTeamMatches(id)]).then(([teamInfoData, matchesData]) => {
+      setTeamInfo(teamInfoData.data);
+      setMatchesInfo(matchesData.data);
     });
   }, []);
-  console.log('===>', teamInfo);
-  const squadPlayers = teamInfo?.squad?.filter(member => member.role === ROLE.PLAYER);
-  return teamInfo?.id ? (
-    <View style={{ flex: 1, alignItems: 'center', paddingTop: 20 }}>
-      <CrestImage crestUrl={teamInfo.crestUrl} size={150} />
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 10 }}>{teamInfo.name}</Text>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 10, marginBottom: 5 }}>
-        {'Squads:'}
-      </Text>
-      <FlatList
-        data={squadPlayers}
-        numColumns={3}
-        renderItem={({ item: squad }) => (
-          <View
-            style={{
-              borderWidth: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 120,
-              height: 50,
-              padding: 3,
-            }}
-          >
-            <Text
-              style={{
-                textAlignVertical: 'center',
-                textAlign: 'center',
-              }}
-            >
-              {squad.name}
-            </Text>
-          </View>
-        )}
-        keyExtractor={id => id}
-      />
-    </View>
+  const { squad = [], activeCompetitions = [], crestUrl, id: idTeam = null, name } = teamInfo || {};
+  const squadPlayers = squad?.filter(member => member.role === ROLE.PLAYER);
+  return idTeam ? (
+    <ScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ alignItems: 'center', paddingTop: 20, paddingBottom: 30 }}
+    >
+      <CrestImage crestUrl={crestUrl} size={150} />
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 10 }}>{name}</Text>
+      <MatchesList matchesInfo={matchesInfo?.matches} />
+      <SquadsList squadPlayers={squadPlayers} />
+      <ActiveCompetitionsList activeCompetitions={activeCompetitions} />
+    </ScrollView>
   ) : (
     <Loading />
   );
